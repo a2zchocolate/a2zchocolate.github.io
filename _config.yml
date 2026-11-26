@@ -1,0 +1,12 @@
+title: Maki's Wiki
+tagline: What Maki builds, plays and thinks about
+repo: a2zchocolate/a2zchocolate.github.io
+markdown: kramdown
+permalink: pretty
+exclude: [README.md, preview.py, _preview]
+defaults:
+  - scope: { path: "" }
+    values: { layout: wiki }
+elsewhere:
+  - { label: "GitHub", url: "https://github.com/a2zchocolate" }
+  - { label: "小红书", url: "https://xhslink.cn/o/5e0dSc7Yh70" }

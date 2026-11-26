@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'en' }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if page.url == "/" %}{{ site.title }}{% else %}{{ page.title }} – {{ site.title }}{% endif %}</title>
+<meta name="description" content="{{ page.summary | default: site.tagline | escape }}">
+<link rel="stylesheet" href="{{ '/assets/wiki.css' | relative_url }}">
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="mark" href="{{ '/' | relative_url }}">
+      <span class="mark-a" aria-hidden="true">巻</span>
+      <span><b>{{ site.title }}</b><small>{{ site.tagline }}</small></span>
+    </a>
+    <nav aria-label="Navigation">
+      <h2>Navigation</h2>
+      <ul>
+        <li><a href="{{ '/' | relative_url }}">Main page</a></li>
+        <li><a href="{{ '/all/' | relative_url }}">All articles</a></li>
+        <li><a href="#" id="random">Random article</a></li>
+        <li><a href="https://github.com/{{ site.repo }}/commits/main">Recent changes</a></li>
+      </ul>
+      <h2>Elsewhere</h2>
+      <ul>
+        {% for l in site.elsewhere %}<li><a href="{{ l.url }}" rel="noopener">{{ l.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="page">
+    <div class="tabs">
+      <span class="tab on">{% if page.url == "/" %}Main page{% else %}Article{% endif %}</span>
+      <span class="spacer"></span>
+      <a class="tab" href="https://github.com/{{ site.repo }}/blob/main/{{ page.path }}">View source</a>
+      <a class="tab" href="https://github.com/{{ site.repo }}/commits/main/{{ page.path }}">View history</a>
+    </div>
+
+    <article>
+      <h1 class="title">{{ page.title }}</h1>
+      {% if page.url != "/" %}<p class="from">From {{ site.title }}</p>{% endif %}
+
+      {% if page.infobox %}
+      <table class="infobox">
+        <caption>{{ page.infobox_title | default: page.title }}</caption>
+        {% if page.infobox_caption %}<tr><td colspan="2" class="ib-cap">{{ page.infobox_caption }}</td></tr>{% endif %}
+        {% for row in page.infobox %}
+        <tr><th scope="row">{{ row[0] }}</th><td>{{ row[1] | markdownify | remove: '<p>' | remove: '</p>' }}</td></tr>
+        {% endfor %}
+      </table>
+      {% endif %}
+
+      <div class="content">
+        {{ content }}
+      </div>
+
+      {% if page.category %}
+      <div class="cats">Category: <a href="{{ '/all/' | relative_url }}#{{ page.category | slugify }}">{{ page.category }}</a></div>
+      {% endif %}
+    </article>
+
+    <footer class="foot">
+      <p>Content by Maki (マキ・巻). Each page's full history is on <a href="https://github.com/{{ site.repo }}">GitHub</a>.</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+{
+  // Contents box: built from the article's section headings (only when there are 3+).
+  const content = document.querySelector(".content");
+  const hs = content ? [...content.querySelectorAll("h2, h3")] : [];
+  if (hs.length >= 3) {
+    const box = document.createElement("nav");
+    box.className = "toc"; box.setAttribute("aria-label", "Contents");
+    let n2 = 0, n3 = 0;
+    const items = hs.map(h => {
+      if (!h.id) h.id = h.textContent.trim().toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "-");
+      const lvl = h.tagName === "H2" ? 2 : 3;
+      if (lvl === 2) { n2++; n3 = 0; } else n3++;
+      const num = lvl === 2 ? `${n2}` : `${n2}.${n3}`;
+      const li = document.createElement("li"); li.className = "l" + lvl;
+      const a = document.createElement("a"); a.href = "#" + h.id;
+      const s = document.createElement("span"); s.className = "num"; s.textContent = num;
+      a.append(s, " " + h.textContent);
+      li.append(a); return li;
+    });
+    const title = document.createElement("div"); title.className = "toc-t"; title.textContent = "Contents";
+    const ul = document.createElement("ul"); ul.append(...items);
+    box.append(title, ul);
+    const first = content.querySelector("h2");
+    first.parentNode.insertBefore(box, first);
+  }
+  // Random article.
+  const pages = [{% assign arts = site.pages | where_exp: "p", "p.category" %}{% for p in arts %}"{{ p.url | relative_url }}"{% unless forloop.last %},{% endunless %}{% endfor %}];
+  const r = document.getElementById("random");
+  if (r) r.addEventListener("click", e => { e.preventDefault(); if (pages.length) location.href = pages[Math.floor(Math.random() * pages.length)]; });
+}
+</script>
+</body>
+</html>
