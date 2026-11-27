@@ -17,3 +17,6 @@ summary: "Maki's personal wiki: notes on the games she makes, the games she play
 
 **[Splatoon Weapon Guesser](/wiki/splatoon-weapon-guesser/)**
 : Guess the mystery *Splatoon* weapon in five tries from the attributes it shares with your guesses. English, 中文 and 日本語.
+
+**[Salmon Run Minesweeper](/wiki/salmon-run-minesweeper/)** (鲑鱼跑x扫雷)
+: Classic Minesweeper in *Splatoon*'s Salmon Run: collect Golden Eggs, avoid the Small Fry, and race for the global leaderboard. English, 中文 and 日本語.

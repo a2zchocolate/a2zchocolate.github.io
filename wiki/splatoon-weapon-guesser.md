@@ -31,5 +31,6 @@ The interface and weapon names are available in English, Chinese and Japanese, w
 
 ## See also
 - [Spire Oracle](/wiki/spire-oracle/)
+- [Salmon Run Minesweeper](/wiki/salmon-run-minesweeper/)
 
 <small>Fan project, not affiliated with Nintendo.</small>

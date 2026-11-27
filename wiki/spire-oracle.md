@@ -25,6 +25,7 @@ The deck holds more than 1,100 cards, relics, potions and events, all with their
 
 ## See also
 - [Splatoon Weapon Guesser](/wiki/splatoon-weapon-guesser/)
+- [Salmon Run Minesweeper](/wiki/salmon-run-minesweeper/)
 - [Spire Codex](https://spire-codex.com), the source of the item names
 
 <small>Fan project, not affiliated with Mega Crit.</small>
